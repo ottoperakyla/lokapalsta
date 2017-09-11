@@ -1,0 +1,15 @@
+lokapalsta tietokannat maybe
+
+- topics (Only creatable at stage admin)
+  - title
+
+- posts 
+  - topic_uuid
+  - title 
+  - text
+  - timestamp
+
+- replies
+  - post_uuid
+  - text
+  - timestamp
