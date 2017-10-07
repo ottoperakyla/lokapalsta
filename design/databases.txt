@@ -1,10 +1,6 @@
-lokapalsta tietokannat maybe
-
-- topics (Only creatable at stage admin)
-  - title
+lokapalsta tietokannat most definetely
 
 - posts 
-  - topic_uuid
   - title 
   - text
   - timestamp
