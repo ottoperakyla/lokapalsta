@@ -1,31 +1,26 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { Router, Route } from 'react-router'
+import createHistory from 'history/createHashHistory'
 import { APP_NAME } from '../constants'
 import Reply from './Reply'
-import { fetchPosts } from '../api'
+import PostsList from './PostsList'
+import NavBar from './NavBar'
 
-class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      posts: []
-    }
-  }
+const history = createHistory()
 
-  componentWillMount() {
-    fetchPosts().then((response) => {
-      this.setState({ posts: response.data.posts })
-    })
-  }
-  
-  render(){ 
-    return (
-    <div className="container mt-5">
-      <h2 style={styles.heading}>{APP_NAME}</h2>
-      <p>TODO: render posts {JSON.stringify(this.state.posts)}</p>
-      <Reply/>
-    </div>
-    )
-  }
+const App = (props) => {
+  return (
+  <div className="container mt-5">
+    <h2 style={styles.heading}>{APP_NAME}</h2>
+    <Router history={history}>
+      <div>
+        <Route path="/" component={NavBar} />
+        <Route exact path="/" component={Reply} />
+        <Route path="/posts" component={PostsList} />
+        </div> 
+    </Router>
+  </div>
+  )
 }
 
 const styles = {
