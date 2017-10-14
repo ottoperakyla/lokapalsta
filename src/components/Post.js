@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { fetchPost } from '../api'
+import Reply from './Reply'
 
 class Post extends Component {
   constructor(props) {
@@ -39,6 +40,7 @@ class Post extends Component {
             {renderReply(this.state.post)}
             {this.state.post.replies.map(renderReply)}
         </ul>
+        <Reply refreshView={this.componentWillMount.bind(this)} postID={this.state.postID} />
       </div>
     )
   }

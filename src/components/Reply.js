@@ -1,38 +1,48 @@
-import React from 'react'
+import React, { Component } from 'react'
 import serialize from 'form-serialize'
-import { createPost, fetchPost } from '../api'
+import { createPost } from '../api'
 
-const Reply = (props) => {
-  const sendPost = (e) => {
+class Reply extends Component {
+  constructor(props) {
+    super(props)
+    this.refreshView = props.refreshView;
+    this.state = {
+      postID: props.postID
+    }
+    this.history = props.history
+  }
+  
+  sendPost(e) {
     e.preventDefault();
-    var data = serialize(e.target, { hash: true })
+    const self = this;
+    const data = serialize(e.target, { hash: true })
     createPost(data).then((response) => {
       if (typeof data.id === 'undefined') {
         // This is not a reply but a new post. Go to post.
-        props.history.push('/posts/' + response.data.id)
+        self.history.push('/posts/' + response.data.id)
       }
       else {
         // This is a reply. Update data
-        fetchPost(this.state.postID).then((response) => {
-          this.setState({ post: response.data.post })
-        })
+        self.refreshView();
       }
     })
   }
 
-  return (
-    <div className="container mt-5">
-      <h4 style={styles.heading}>Snapchat your database</h4>
-      <form onSubmit={sendPost}>
-        { props.match.params.id
-          ? <input type="hidden" name="id" value={props.match.params.id} />
-          : <input type="text" name="title" className="w-100" style={styles.input} />
-        }
-        <textarea className="w-100" name="text" style={styles.textarea}></textarea><br />
-        <button type="submit">Snap</button>
-      </form>
-    </div>
-  )
+  render() {
+    return (
+      <div className="container mt-5">
+        <h4 style={styles.heading}>Snapchat your database</h4>
+        <form onSubmit={this.sendPost.bind(this)}>
+          { this.state.postID
+            ? <input type="hidden" name="id" value={this.state.postID} />
+            : <input type="text" name="title" className="w-100" style={styles.input} />
+          }
+          <textarea className="w-100" name="text" style={styles.textarea}></textarea><br />
+          <button type="submit">Snap</button>
+        </form>
+      </div>
+    )
+  }
 }
 
 const styles = {

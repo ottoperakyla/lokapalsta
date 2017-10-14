@@ -19,7 +19,6 @@ const App = (props) => {
         <Route exact path="/posts" component={PostsList} />
         <Route exact path="/posts" component={Reply} />
         <Route path="/posts/:id" component={Post} />
-        <Route path="/posts/:id" component={Reply} />
       </div> 
     </Router>
   </div>
