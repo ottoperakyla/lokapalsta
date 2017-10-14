@@ -5,18 +5,15 @@ class Post extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      post: [],
+      post: { replies: [] },
       postID: props.match.params.id
     }
   }
 
   componentWillMount() {
-    this.setState({ post: fetchPost().data });
-    // TODO: make fetchPost() use the API and use the code below
-    // instead of the code above
-    /*fetchPost(this.state.postID).then((response) => {
-      this.setState({ post: response.data })
-    })*/
+    fetchPost(this.state.postID).then((response) => {
+      this.setState({ post: response.data.post })
+    })
   }
   
 

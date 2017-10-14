@@ -6,9 +6,9 @@ export const fetchPosts = () => {
 }
 
 export const fetchPost = (id) => {
-  //return axios.get(`${ROOT_URL}/fetchPost?id=` + id)
+  return axios.get(`${ROOT_URL}/fetchPost?uuid=` + id)
   // placeholder
-  return {
+  /*return {
     data: {
       id: '12GERg4km€#ffg',
       title: 'Hannu liity snapchattii :D',
@@ -27,7 +27,7 @@ export const fetchPost = (id) => {
         }
       ]
     }
-  }
+  }*/
 }
 
 
