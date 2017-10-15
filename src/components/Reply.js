@@ -16,6 +16,8 @@ class Reply extends Component {
     e.preventDefault();
     const self = this;
     const data = serialize(e.target, { hash: true })
+    e.target.reset() // Empty form
+
     createPost(data).then((response) => {
       if (typeof data.id === 'undefined') {
         // This is not a reply but a new post. Go to post.
@@ -23,7 +25,7 @@ class Reply extends Component {
       }
       else {
         // This is a reply. Update data
-        self.refreshView();
+        self.refreshView()
       }
     })
   }
@@ -37,7 +39,7 @@ class Reply extends Component {
             ? <input type="hidden" name="id" value={this.state.postID} />
             : <input type="text" name="title" className="w-100" style={styles.input} />
           }
-          <textarea className="w-100" name="text" style={styles.textarea}></textarea><br />
+          <textarea className="w-100" name="text" style={styles.textarea} ref={(input) => { this.textarea = input }}></textarea><br />
           <button type="submit">Snap</button>
         </form>
       </div>
