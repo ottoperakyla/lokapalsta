@@ -27,10 +27,14 @@ class Reply extends Component {
     this.setState({ errors })
   } 
   
-  sendPost(e) {
-    e.preventDefault();
-    const self = this;
+  submitReplyForm(e) {
+    e.preventDefault()
     const data = serialize(e.target, { hash: true })
+    this.sendPost(e.target, data).bind(this)
+  }
+
+  sendPost(form, data) {
+    const self = this
     /*const errors = this.validate(data)
 
     console.log('errors', data, errors)
@@ -39,7 +43,7 @@ class Reply extends Component {
       return false
     }*/
 
-    e.target.reset() // Empty form
+    form.reset() // Empty form
 
     createPost(data).then((response) => {
       if (typeof data.id === 'undefined') {
@@ -53,11 +57,19 @@ class Reply extends Component {
     })
   }
 
+  hotkeySubmit(e) {
+    if ((e.ctrlKey || e.metaKey) && (e.keyCode === 13 || e.keyCode === 10)) {
+      // ctrl + enter was pressed
+      const form = e.target.closest('form');
+      this.sendPost(form, serialize(form, { hash: true }))
+    }
+  }
+
   render() {
     return (
       <div className="container mt-5">
         <h4 style={styles.heading}>Snapchat your database</h4>
-        <form className="form" onSubmit={this.sendPost.bind(this)}>
+        <form className="form" onSubmit={this.submitReplyForm.bind(this)}>
           { this.state.postID
             ? <input type="hidden" name="id" value={this.state.postID} />
             : <div className="form-group"><label htmlFor="title">Title</label><input type="text" name="title" id="title" className="form-control w-100" style={styles.input} />
@@ -68,7 +80,7 @@ class Reply extends Component {
           }
           <div className="form-group">
             <label htmlFor="text">Text</label>
-            <textarea className="form-control w-100" id="text" name="text" style={styles.textarea}></textarea>
+            <textarea className="form-control w-100" id="text" name="text" style={styles.textarea} onKeyDown={this.hotkeySubmit.bind(this)}></textarea>
             {this.state.errors.text && <div className="alert alert-danger" role="alert">
               {this.state.errors.text}
             </div>}
