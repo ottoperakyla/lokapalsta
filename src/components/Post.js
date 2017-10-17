@@ -22,7 +22,10 @@ class Post extends Component {
       return '';
     }
 
-    var urlRegex = /(https?:\/\/[^\s]+)/g;
+    // Escape html
+    text = ({text}).text;
+
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
     return text.replace(urlRegex, function(url) {
         return '<a href="' + url + '">' + url + '</a>';
     })
