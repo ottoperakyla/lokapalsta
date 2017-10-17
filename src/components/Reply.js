@@ -7,13 +7,10 @@ class Reply extends Component {
     super(props)
     this.refreshView = props.refreshView;
     this.state = {
-      postID: props.postID
+      postID: props.postID,
+      errors: {}
     }
     this.history = props.history
-  }
-
-  showErrors(errors) {
-    console.log('showErrors', errors)
   }
 
   validate(data) {
@@ -27,23 +24,22 @@ class Reply extends Component {
       errors.text = 'Please fill in text'
     }
     
-    return errors
+    this.setState({ errors })
   } 
   
   sendPost(e) {
     e.preventDefault();
     const self = this;
     const data = serialize(e.target, { hash: true })
-<<<<<<< HEAD
-    const errors = this.validate(data)
+    /*const errors = this.validate(data)
 
-    if ( Object.keys(errors).length > 0 ) {
-      this.showErrors(errors)
+    console.log('errors', data, errors)
+
+    if ( Object.keys(this.state.errors).length > 0 ) {
       return false
-    }
-=======
+    }*/
+
     e.target.reset() // Empty form
->>>>>>> 9d47db0738ad0aa505a8cbc5561b247d5e1f3889
 
     createPost(data).then((response) => {
       if (typeof data.id === 'undefined') {
@@ -64,18 +60,20 @@ class Reply extends Component {
         <form className="form" onSubmit={this.sendPost.bind(this)}>
           { this.state.postID
             ? <input type="hidden" name="id" value={this.state.postID} />
-            : <div className="form-group"><label htmlFor="title">Title</label><input type="text" name="title" id="title" className="form-control w-100" style={styles.input} /></div>
+            : <div className="form-group"><label htmlFor="title">Title</label><input type="text" name="title" id="title" className="form-control w-100" style={styles.input} />
+            {this.state.errors.title && <div className="alert alert-danger" role="alert">
+              {this.state.errors.title}
+            </div>}
+            </div>
           }
-<<<<<<< HEAD
           <div className="form-group">
             <label htmlFor="text">Text</label>
             <textarea className="form-control w-100" id="text" name="text" style={styles.textarea}></textarea>
+            {this.state.errors.text && <div className="alert alert-danger" role="alert">
+              {this.state.errors.text}
+            </div>}
           </div>
           <button className="btn btn-primary" type="submit">Snap</button>
-=======
-          <textarea className="w-100" name="text" style={styles.textarea} ref={(input) => { this.textarea = input }}></textarea><br />
-          <button type="submit">Snap</button>
->>>>>>> 9d47db0738ad0aa505a8cbc5561b247d5e1f3889
         </form>
       </div>
     )
