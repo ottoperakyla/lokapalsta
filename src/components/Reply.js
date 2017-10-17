@@ -34,12 +34,16 @@ class Reply extends Component {
     e.preventDefault();
     const self = this;
     const data = serialize(e.target, { hash: true })
+<<<<<<< HEAD
     const errors = this.validate(data)
 
     if ( Object.keys(errors).length > 0 ) {
       this.showErrors(errors)
       return false
     }
+=======
+    e.target.reset() // Empty form
+>>>>>>> 9d47db0738ad0aa505a8cbc5561b247d5e1f3889
 
     createPost(data).then((response) => {
       if (typeof data.id === 'undefined') {
@@ -48,7 +52,7 @@ class Reply extends Component {
       }
       else {
         // This is a reply. Update data
-        self.refreshView();
+        self.refreshView()
       }
     })
   }
@@ -62,11 +66,16 @@ class Reply extends Component {
             ? <input type="hidden" name="id" value={this.state.postID} />
             : <div className="form-group"><label htmlFor="title">Title</label><input type="text" name="title" id="title" className="form-control w-100" style={styles.input} /></div>
           }
+<<<<<<< HEAD
           <div className="form-group">
             <label htmlFor="text">Text</label>
             <textarea className="form-control w-100" id="text" name="text" style={styles.textarea}></textarea>
           </div>
           <button className="btn btn-primary" type="submit">Snap</button>
+=======
+          <textarea className="w-100" name="text" style={styles.textarea} ref={(input) => { this.textarea = input }}></textarea><br />
+          <button type="submit">Snap</button>
+>>>>>>> 9d47db0738ad0aa505a8cbc5561b247d5e1f3889
         </form>
       </div>
     )
