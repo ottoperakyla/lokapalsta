@@ -2632,6 +2632,10 @@ form-data@~2.1.1:
     combined-stream "^1.0.5"
     mime-types "^2.1.12"
 
+form-serialize@^0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/form-serialize/-/form-serialize-0.7.2.tgz#b0a2ff0c22026fb6d3d15c9d33f6de6a432e4732"
+
 forwarded@~0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/forwarded/-/forwarded-0.1.1.tgz#8a4e30c640b05395399a3549c730257728048961"
