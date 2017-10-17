@@ -16,6 +16,17 @@ class Post extends Component {
       this.setState({ post: response.data.post })
     })
   }
+
+  urlify(text) {
+    if (typeof text !== 'string') {
+      return '';
+    }
+
+    var urlRegex = /(https?:\/\/[^\s]+)/g;
+    return text.replace(urlRegex, function(url) {
+        return '<a href="' + url + '">' + url + '</a>';
+    })
+  }
   
 
   render() {
@@ -26,9 +37,7 @@ class Post extends Component {
                 {title}
                 <small>@{timestamp}</small>
             </h4>
-            <p className="w-100">
-                {text}
-            </p>
+            <p className="w-100" dangerouslySetInnerHTML={{__html: this.urlify(text)}}></p>
         </li>
       )
     }
