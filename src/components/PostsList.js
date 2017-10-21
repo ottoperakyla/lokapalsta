@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { fetchPosts } from '../api'
 import { Link } from 'react-router-dom'
+import Timestamp from './Timestamp'
 
 class PostsList extends Component {
   constructor(props) {
@@ -23,7 +24,7 @@ class PostsList extends Component {
         <li key={id} className="list-group-item">
           <Link to={`/posts/${id}`}>
             <h4>{title}
-              <small>@{timestamp}</small>
+              <Timestamp timestamp={timestamp} />
             </h4>
           </Link>
         </li>

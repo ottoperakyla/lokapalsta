@@ -5,7 +5,7 @@ import { createPost } from '../api'
 class Reply extends Component {
   constructor(props) {
     super(props)
-    this.refreshView = props.refreshView;
+    this.refreshView = props.refreshView
     this.state = {
       postID: props.postID,
       errors: {}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { fetchPost } from '../api'
 import Reply from './Reply'
+import Timestamp from './Timestamp'
 import { escape } from "lodash";
 
 class Post extends Component {
@@ -39,7 +40,7 @@ class Post extends Component {
         <li key={id} className="list-group-item">
             <h4>
                 {title}
-                <small>@{timestamp}</small>
+                <Timestamp timestamp={timestamp} />
             </h4>
             <p className="w-100" dangerouslySetInnerHTML={{__html: this.urlify(text)}}></p>
         </li>
