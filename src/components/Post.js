@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { fetchPost } from '../api'
 import Reply from './Reply'
+import { escape } from "lodash";
 
 class Post extends Component {
   constructor(props) {
@@ -23,7 +24,7 @@ class Post extends Component {
     }
 
     // Escape html
-    text = ({text}).text;
+    text = escape(text);
 
     const urlRegex = /(https?:\/\/[^\s]+)/g;
     return text.replace(urlRegex, function(url) {
