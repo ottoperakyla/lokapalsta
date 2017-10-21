@@ -11,12 +11,33 @@ class Post extends Component {
       post: { replies: [] },
       postID: props.match.params.id
     }
+    // Poller needs to check if we are on this page or not. This regex does that.
+    this.urlRegExp = new RegExp('/posts/' + this.state.postID)
+    this.startPoller(5);
+  }
+
+  startPoller(interval) {
+    this.poller = window.setInterval(this.componentWillMount.bind(this), interval * 1000)
+  }
+
+  stopPoller() {
+    window.clearInterval(this.poller)
+  }
+
+  // Check if we are still on this page
+  isActive() {
+    return this.urlRegExp.test(window.location.href)
   }
 
   componentWillMount() {
-    fetchPost(this.state.postID).then((response) => {
-      this.setState({ post: response.data.post })
-    })
+    if (this.isActive()) {
+      fetchPost(this.state.postID).then((response) => {
+        this.setState({ post: response.data.post })
+      })
+    }
+    else {
+      this.stopPoller();
+    }
   }
 
   urlify(text) {
