@@ -26,7 +26,7 @@ class Timestamp extends Component {
     ))
 
     return d.getDate() + '.' + (d.getMonth() + 1) + '.' + d.getFullYear() + ' ' +
-           d.getHours() + ':' + d.getMinutes()
+           d.getHours() + ':' + ('0' + d.getMinutes()).slice(-2)
   }
 
   render() {
