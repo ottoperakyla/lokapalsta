@@ -77,8 +77,6 @@ class Reply extends Component {
                 onChange={this.handleInputTitleFieldChange} 
                 value={this.state.inputTitleFieldValue} 
                 type="text" 
-                name="title" 
-                id="title" 
                 className="form-control w-100" 
                 style={styles.input} 
               />
@@ -91,8 +89,6 @@ class Reply extends Component {
               value={this.state.inputPostFieldValue} 
               onKeyDown={this.hotkeySubmit.bind(this)} 
               className="form-control w-100" 
-              id="text" 
-              name="text" 
               style={styles.textarea}>
             </textarea>
           </div>
