@@ -7,30 +7,16 @@ class Reply extends Component {
     this.refreshView = props.refreshView
     this.state = {
       postID: props.postID,
-      errors: {},
       inputTitleFieldValue: '',
       inputPostFieldValue: ''
     }
+    
     this.history = props.history
     this.submitReplyForm = this.submitReplyForm.bind(this);
     this.sendPost = this.sendPost.bind(this);
     this.handleInputPostFieldChange = this.handleInputPostFieldChange.bind(this);
     this.handleInputTitleFieldChange = this.handleInputTitleFieldChange.bind(this);
   }
-
-  validate(data) {
-    let errors = {}
-
-    if ( !data.title ) {
-      errors.title = 'Please fill in title'
-    }
-
-    if ( !data.text ) {
-      errors.text = 'Please fill in text'
-    }
-    
-    this.setState({ errors })
-  } 
   
   submitReplyForm(e) {
     e.preventDefault()
@@ -43,14 +29,7 @@ class Reply extends Component {
   }
 
   sendPost(data) {
-    const self = this
-    /*const errors = this.validate(data)
-
-    console.log('errors', data, errors)
-
-    if ( Object.keys(this.state.errors).length > 0 ) {
-      return false
-    }*/
+    const self = this;
 
     createPost(data).then((response) => {
       if (typeof data.id === 'undefined') {
@@ -91,9 +70,6 @@ class Reply extends Component {
           { this.state.postID
             ? <input type="hidden" name="id" value={this.state.postID} />
             : <div className="form-group"><label htmlFor="title">Title</label><input onChange={this.handleInputTitleFieldChange} value={this.state.inputTitleFieldValue} type="text" name="title" id="title" className="form-control w-100" style={styles.input} />
-            {this.state.errors.title && <div className="alert alert-danger" role="alert">
-              {this.state.errors.title}
-            </div>}
             </div>
           }
           <div className="form-group">
@@ -107,9 +83,6 @@ class Reply extends Component {
               name="text" 
               style={styles.textarea}>
             </textarea>
-            {this.state.errors.text && <div className="alert alert-danger" role="alert">
-              {this.state.errors.text}
-            </div>}
           </div>
           <button className="btn btn-primary" type="submit">Snap</button>
         </form>
