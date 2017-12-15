@@ -20,17 +20,19 @@ class Reply extends Component {
   
   submitReplyForm(e) {
     e.preventDefault()
-    if (!this.state.inputPostFieldValue || !this.state.inputTitleFieldValue)  {
-      return;
-    }
     this.sendPost();
   }
 
   sendPost() {
+    if (!this.state.inputPostFieldValue || !this.state.inputTitleFieldValue)  {
+      return;
+    }
+
     const data = {
       title: this.state.inputTitleFieldValue, 
       text: this.state.inputPostFieldValue
     };
+
     createPost(data).then((response) => {
       if (typeof data.id === 'undefined') {
         // This is not a reply but a new post. Go to post.
