@@ -34,11 +34,12 @@ class Reply extends Component {
   } 
   
   submitReplyForm(e) {
+    e.preventDefault()
     if (!this.state.inputPostFieldValue || !this.state.inputTitleFieldValue)  {
       return;
     }
-    e.preventDefault()
-    const data = serialize(e.target, { hash: true })
+    const data = {title: this.state.inputTitleFieldValue, text: this.state.inputPostFieldValue};
+    
     this.sendPost(e.target, data);
   }
 
