@@ -11,6 +11,8 @@ class Reply extends Component {
       errors: {}
     }
     this.history = props.history
+    this.submitReplyForm = this.submitReplyForm.bind(this);
+    this.sendPost = this.sendPost.bind(this);
   }
 
   validate(data) {
@@ -30,7 +32,7 @@ class Reply extends Component {
   submitReplyForm(e) {
     e.preventDefault()
     const data = serialize(e.target, { hash: true })
-    this.sendPost(e.target, data).bind(this)
+    this.sendPost(e.target, data);
   }
 
   sendPost(form, data) {
