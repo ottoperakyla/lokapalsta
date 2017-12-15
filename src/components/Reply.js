@@ -6,7 +6,6 @@ class Reply extends Component {
     super(props)
     this.refreshView = props.refreshView
     this.state = {
-      postID: props.postID,
       inputTitleFieldValue: '',
       inputPostFieldValue: ''
     }
@@ -65,8 +64,8 @@ class Reply extends Component {
       <div className="container mt-5">
         <h4 style={styles.heading}>Snapchat your database</h4>
         <form className="form" onSubmit={this.submitReplyForm.bind(this)}>
-          { this.state.postID
-            ? <input type="hidden" name="id" value={this.state.postID} />
+          { this.props.postID
+            ? <input type="hidden" name="id" value={this.props.postID} />
             : (
               <div className="form-group">
                 <label htmlFor="title">Title</label>
