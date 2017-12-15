@@ -23,13 +23,21 @@ class Reply extends Component {
   }
 
   sendPost() {
-    if (!this.state.inputPostFieldValue || !this.state.inputTitleFieldValue)  {
-      return;
+    if (this.props.postID) {
+      if (!this.state.inputPostFieldValue) {
+        return;
+      }
+    }
+    else if (!this.props.postID) {
+      if (!this.state.inputPostFieldValue || !this.state.inputTitleFieldValue) {
+         return;
+       }
     }
 
     const data = {
       title: this.state.inputTitleFieldValue, 
-      text: this.state.inputPostFieldValue
+      text: this.state.inputPostFieldValue,
+      id: this.props.postID
     };
 
     createPost(data).then((response) => {
@@ -64,23 +72,20 @@ class Reply extends Component {
       <div className="container mt-5">
         <h4 style={styles.heading}>Snapchat your database</h4>
         <form className="form" onSubmit={this.submitReplyForm.bind(this)}>
-          { this.props.postID
-            ? <input type="hidden" name="id" value={this.props.postID} />
-            : (
-              <div className="form-group">
-                <label htmlFor="title">Title</label>
-                <input 
-                  onChange={this.handleInputTitleFieldChange} 
-                  value={this.state.inputTitleFieldValue} 
-                  type="text" 
-                  name="title" 
-                  id="title" 
-                  className="form-control w-100" 
-                  style={styles.input} 
-                />
-              </div>
-            )
-          }
+          {!this.props.postID && (
+            <div className="form-group">
+              <label htmlFor="title">Title</label>
+              <input 
+                onChange={this.handleInputTitleFieldChange} 
+                value={this.state.inputTitleFieldValue} 
+                type="text" 
+                name="title" 
+                id="title" 
+                className="form-control w-100" 
+                style={styles.input} 
+              />
+            </div>
+          )}
           <div className="form-group">
             <label htmlFor="text">Text</label>
             <textarea 
@@ -112,6 +117,6 @@ const styles = {
   input: {
     maxWidth: '500px'
   }
-}
+};
 
-export default Reply
+export default Reply;
