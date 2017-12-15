@@ -8,11 +8,15 @@ class Reply extends Component {
     this.refreshView = props.refreshView
     this.state = {
       postID: props.postID,
-      errors: {}
+      errors: {},
+      inputTitleFieldValue: '',
+      inputPostFieldValue: ''
     }
     this.history = props.history
     this.submitReplyForm = this.submitReplyForm.bind(this);
     this.sendPost = this.sendPost.bind(this);
+    this.handleInputPostFieldChange = this.handleInputPostFieldChange.bind(this);
+    this.handleInputTitleFieldChange = this.handleInputTitleFieldChange.bind(this);
   }
 
   validate(data) {
@@ -30,6 +34,9 @@ class Reply extends Component {
   } 
   
   submitReplyForm(e) {
+    if (!this.state.inputPostFieldValue || !this.state.inputTitleFieldValue)  {
+      return;
+    }
     e.preventDefault()
     const data = serialize(e.target, { hash: true })
     this.sendPost(e.target, data);
@@ -67,6 +74,14 @@ class Reply extends Component {
     }
   }
 
+  handleInputTitleFieldChange(e) {
+    this.setState({inputTitleFieldValue: e.target.value});
+  }
+
+  handleInputPostFieldChange(e) {
+    this.setState({inputPostFieldValue: e.target.value});
+  }
+
   render() {
     return (
       <div className="container mt-5">
@@ -74,7 +89,7 @@ class Reply extends Component {
         <form className="form" onSubmit={this.submitReplyForm.bind(this)}>
           { this.state.postID
             ? <input type="hidden" name="id" value={this.state.postID} />
-            : <div className="form-group"><label htmlFor="title">Title</label><input type="text" name="title" id="title" className="form-control w-100" style={styles.input} />
+            : <div className="form-group"><label htmlFor="title">Title</label><input onChange={this.handleInputTitleFieldChange} value={this.state.inputTitleFieldValue} type="text" name="title" id="title" className="form-control w-100" style={styles.input} />
             {this.state.errors.title && <div className="alert alert-danger" role="alert">
               {this.state.errors.title}
             </div>}
@@ -82,7 +97,7 @@ class Reply extends Component {
           }
           <div className="form-group">
             <label htmlFor="text">Text</label>
-            <textarea className="form-control w-100" id="text" name="text" style={styles.textarea} onKeyDown={this.hotkeySubmit.bind(this)}></textarea>
+            <textarea onChange={this.handleInputPostFieldChange} value={this.state.inputPostFieldValue} onKeyDown={this.hotkeySubmit.bind(this)} className="form-control w-100" id="text" name="text" style={styles.textarea}></textarea>
             {this.state.errors.text && <div className="alert alert-danger" role="alert">
               {this.state.errors.text}
             </div>}
