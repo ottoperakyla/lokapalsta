@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import serialize from 'form-serialize'
 import { createPost } from '../api'
 
 class Reply extends Component {
@@ -53,8 +52,6 @@ class Reply extends Component {
       return false
     }*/
 
-    form.reset() // Empty form
-
     createPost(data).then((response) => {
       if (typeof data.id === 'undefined') {
         // This is not a reply but a new post. Go to post.
@@ -71,7 +68,11 @@ class Reply extends Component {
     if ((e.ctrlKey || e.metaKey) && (e.keyCode === 13 || e.keyCode === 10)) {
       // ctrl + enter was pressed
       const form = e.target.closest('form');
-      this.sendPost(form, serialize(form, { hash: true }))
+      const data = {
+        title: this.state.inputTitleFieldValue, 
+        text: this.state.inputPostFieldValue
+      };
+      this.sendPost(form, data);
     }
   }
 
@@ -98,7 +99,15 @@ class Reply extends Component {
           }
           <div className="form-group">
             <label htmlFor="text">Text</label>
-            <textarea onChange={this.handleInputPostFieldChange} value={this.state.inputPostFieldValue} onKeyDown={this.hotkeySubmit.bind(this)} className="form-control w-100" id="text" name="text" style={styles.textarea}></textarea>
+            <textarea 
+              onChange={this.handleInputPostFieldChange} 
+              value={this.state.inputPostFieldValue} 
+              onKeyDown={this.hotkeySubmit.bind(this)} 
+              className="form-control w-100" 
+              id="text" 
+              name="text" 
+              style={styles.textarea}>
+            </textarea>
             {this.state.errors.text && <div className="alert alert-danger" role="alert">
               {this.state.errors.text}
             </div>}
