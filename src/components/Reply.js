@@ -4,13 +4,11 @@ import { createPost } from '../api'
 class Reply extends Component {
   constructor(props) {
     super(props)
-    this.refreshView = props.refreshView
     this.state = {
       inputTitleFieldValue: '',
       inputPostFieldValue: ''
     }
 
-    this.history = props.history
     this.submitReplyForm = this.submitReplyForm.bind(this);
     this.sendPost = this.sendPost.bind(this);
     this.handleInputPostFieldChange = this.handleInputPostFieldChange.bind(this);
@@ -43,11 +41,11 @@ class Reply extends Component {
     createPost(data).then((response) => {
       if (typeof data.id === 'undefined') {
         // This is not a reply but a new post. Go to post.
-        this.history.push('/posts/' + response.data.id)
+        this.props.history.push('/posts/' + response.data.id)
       }
       else {
         // This is a reply. Update data
-        this.refreshView()
+        this.props.refreshView()
       }
     })
   }
