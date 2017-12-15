@@ -39,10 +39,10 @@ class Reply extends Component {
     }
     const data = {title: this.state.inputTitleFieldValue, text: this.state.inputPostFieldValue};
     
-    this.sendPost(e.target, data);
+    this.sendPost(data);
   }
 
-  sendPost(form, data) {
+  sendPost(data) {
     const self = this
     /*const errors = this.validate(data)
 
@@ -67,12 +67,11 @@ class Reply extends Component {
   hotkeySubmit(e) {
     if ((e.ctrlKey || e.metaKey) && (e.keyCode === 13 || e.keyCode === 10)) {
       // ctrl + enter was pressed
-      const form = e.target.closest('form');
       const data = {
         title: this.state.inputTitleFieldValue, 
         text: this.state.inputPostFieldValue
       };
-      this.sendPost(form, data);
+      this.sendPost(data);
     }
   }
 
