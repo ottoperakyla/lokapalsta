@@ -23,12 +23,14 @@ class Reply extends Component {
     if (!this.state.inputPostFieldValue || !this.state.inputTitleFieldValue)  {
       return;
     }
-    const data = {title: this.state.inputTitleFieldValue, text: this.state.inputPostFieldValue};
-    
-    this.sendPost(data);
+    this.sendPost();
   }
 
-  sendPost(data) {
+  sendPost() {
+    const data = {
+      title: this.state.inputTitleFieldValue, 
+      text: this.state.inputPostFieldValue
+    };
     createPost(data).then((response) => {
       if (typeof data.id === 'undefined') {
         // This is not a reply but a new post. Go to post.
@@ -44,11 +46,7 @@ class Reply extends Component {
   hotkeySubmit(e) {
     if ((e.ctrlKey || e.metaKey) && (e.keyCode === 13 || e.keyCode === 10)) {
       // ctrl + enter was pressed
-      const data = {
-        title: this.state.inputTitleFieldValue, 
-        text: this.state.inputPostFieldValue
-      };
-      this.sendPost(data);
+      this.sendPost();
     }
   }
 
