@@ -10,7 +10,7 @@ class Reply extends Component {
       inputTitleFieldValue: '',
       inputPostFieldValue: ''
     }
-    
+
     this.history = props.history
     this.submitReplyForm = this.submitReplyForm.bind(this);
     this.sendPost = this.sendPost.bind(this);
@@ -29,16 +29,14 @@ class Reply extends Component {
   }
 
   sendPost(data) {
-    const self = this;
-
     createPost(data).then((response) => {
       if (typeof data.id === 'undefined') {
         // This is not a reply but a new post. Go to post.
-        self.history.push('/posts/' + response.data.id)
+        this.history.push('/posts/' + response.data.id)
       }
       else {
         // This is a reply. Update data
-        self.refreshView()
+        this.refreshView()
       }
     })
   }
@@ -69,8 +67,20 @@ class Reply extends Component {
         <form className="form" onSubmit={this.submitReplyForm.bind(this)}>
           { this.state.postID
             ? <input type="hidden" name="id" value={this.state.postID} />
-            : <div className="form-group"><label htmlFor="title">Title</label><input onChange={this.handleInputTitleFieldChange} value={this.state.inputTitleFieldValue} type="text" name="title" id="title" className="form-control w-100" style={styles.input} />
-            </div>
+            : (
+              <div className="form-group">
+                <label htmlFor="title">Title</label>
+                <input 
+                  onChange={this.handleInputTitleFieldChange} 
+                  value={this.state.inputTitleFieldValue} 
+                  type="text" 
+                  name="title" 
+                  id="title" 
+                  className="form-control w-100" 
+                  style={styles.input} 
+                />
+              </div>
+            )
           }
           <div className="form-group">
             <label htmlFor="text">Text</label>
