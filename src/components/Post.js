@@ -1,3 +1,4 @@
+import * as R from 'ramda'
 import React, { Component } from 'react'
 import { fetchPost } from '../api'
 import Reply from './Reply'
@@ -32,12 +33,18 @@ class Post extends Component {
   componentWillMount() {
     if (this.isActive()) {
       fetchPost(this.state.postID).then((response) => {
-        this.setState({ post: response.data.post })
+        this.setState({ post: response.data.post }) 
       })
     }
     else {
       this.stopPoller();
     }
+  }
+
+  setRead() {
+    const read = R.defaultTo({}, JSON.parse(localStorage.getItem('read')));
+    read[this.state.postID] = this.state.post.replies.length
+    localStorage.setItem('read', JSON.stringify(read))   
   }
 
   urlify(text) {
@@ -56,6 +63,7 @@ class Post extends Component {
   
 
   render() {
+    this.setRead()
     const renderReply = ({ id, title, text, timestamp }) => {
       return (
         <li key={id} className="list-group-item">

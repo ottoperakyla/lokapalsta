@@ -2,22 +2,19 @@ import React from 'react'
 import { Router, Route } from 'react-router'
 import createHistory from 'history/createHashHistory'
 import { APP_NAME } from '../constants'
-import Reply from './Reply'
 import Post from './Post'
 import PostsList from './PostsList'
-import NavBar from './NavBar'
+import { Link } from 'react-router-dom'
 
 const history = createHistory()
 
 const App = (props) => {
   return (
   <div className="container mt-5">
-    <h2 style={styles.heading}>{APP_NAME}</h2>
     <Router history={history}>
       <div>
-        <Route path="/" component={NavBar} />
-        <Route exact path="/posts" component={PostsList} />
-        <Route exact path="/posts" component={Reply} />
+        <h2 style={styles.heading}><Link to="/">{APP_NAME}</Link></h2>
+        <Route exact path="/" component={PostsList} />
         <Route path="/posts/:id" component={Post} />
       </div> 
     </Router>

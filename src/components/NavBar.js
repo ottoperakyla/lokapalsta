@@ -9,11 +9,6 @@ export default (props) => {
       className="nav-link"
       activeClassName="active">Home</NavLink>
     </li>
-    <li className="nav-item">
-      <NavLink to="/posts" 
-      className="nav-link"
-      activeClassName="active">Posts</NavLink>
-    </li>
   </ul>
   )
 }

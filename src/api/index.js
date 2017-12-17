@@ -1,7 +1,7 @@
 import axios from 'axios'
 const ROOT_URL = 'http://craschan.clients.crasman.fi/stage-ajax'
 
-export const fetchPosts = () => {
+export const fetchPosts = (read) => {
   return axios.get(`${ROOT_URL}/fetchPosts`)
 }
 

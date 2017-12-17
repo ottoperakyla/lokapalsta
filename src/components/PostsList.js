@@ -1,7 +1,9 @@
+import * as R from 'ramda'
 import React, { Component } from 'react'
 import { fetchPosts } from '../api'
 import { Link } from 'react-router-dom'
 import Timestamp from './Timestamp'
+import Reply from './Reply'
 
 class PostsList extends Component {
   constructor(props) {
@@ -12,19 +14,25 @@ class PostsList extends Component {
   }
 
   componentWillMount() {
-    fetchPosts().then((response) => {
-      this.setState({ posts: response.data.posts })
+    fetchPosts().then((response)=>{
+      this.setState({ posts: response.data.posts })
     })
   }
-  
 
   render() {
-    const renderPost = ({ id, title, description, timestamp }) => {
+    const renderPost = ({ id, title, description, timestamp, repliesLen }) => {
+      const read = R.defaultTo({}, JSON.parse(localStorage.getItem('read')))
+      const unreadPost = !read.hasOwnProperty(id)
+      let unreadCount = repliesLen
+      if (read[id]) unreadCount -= read[id]
+
       return (
         <li key={id} className="list-group-item">
           <Link to={`/posts/${id}`}>
             <h4>{title}
               <Timestamp timestamp={timestamp} />
+              {unreadPost && <span className="ml-4 badge badge-primary">new</span>}
+              {unreadCount > 0 && <span className="ml-4 badge badge-primary">{unreadCount}</span>}
             </h4>
           </Link>
         </li>
@@ -37,6 +45,7 @@ class PostsList extends Component {
         <ul className="list-group">
           {this.state.posts.map(renderPost)}
         </ul>
+        <Reply history={this.props.history} />
       </div>
     )
   }
