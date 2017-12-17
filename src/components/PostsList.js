@@ -4,13 +4,16 @@ import { fetchPosts } from '../api'
 import { Link } from 'react-router-dom'
 import Timestamp from './Timestamp'
 import Reply from './Reply'
+import Sorting from './Sorting'
 
 class PostsList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      posts: []
+      posts: [],
+      sortingActive: false
     }
+    this.toggleSorting = this.toggleSorting.bind(this)
   }
 
   componentWillMount() {
@@ -19,15 +22,21 @@ class PostsList extends Component {
     })
   }
 
+  toggleSorting() {
+    this.setState({ sortingActive: !this.state.sortingActive })
+  }
+
   render() {
+    const read = R.defaultTo({}, JSON.parse(localStorage.getItem('read')))
+    
     const renderPost = ({ id, title, description, timestamp, repliesLen }) => {
-      const read = R.defaultTo({}, JSON.parse(localStorage.getItem('read')))
       const unreadPost = !read.hasOwnProperty(id)
       let unreadCount = repliesLen
       if (read[id]) unreadCount -= read[id]
+      const hide = this.state.sortingActive && !unreadCount
 
       return (
-        <li key={id} className="list-group-item">
+        <li key={id} className="list-group-item" style={{display: hide ? 'none' : 'flex'}}>
           <Link to={`/posts/${id}`}>
             <h4>{title}
               <Timestamp timestamp={timestamp} />
@@ -42,6 +51,7 @@ class PostsList extends Component {
     return (
       <div className="posts-list">
         <h3>Posts</h3>
+        <Sorting toggle={this.toggleSorting} />
         <ul className="list-group">
           {this.state.posts.map(renderPost)}
         </ul>
